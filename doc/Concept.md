@@ -33,9 +33,43 @@
 
 ## Демонстрація (Hello World)
 
-**Розгортання Hello World за допомогою k3d (приклад):**
+**Розгортання Hello World за допомогою k3d:**
 
+### 1️⃣ Створення Deployment та Service
 ```bash
+cat > k8s/hello.yaml <<'YAML'
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-deploy
+  labels: { app: hello }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: hello }
+  template:
+    metadata:
+      labels: { app: hello }
+    spec:
+      containers:
+        - name: hello
+          image: nginxdemos/hello:plain-text
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-svc
+spec:
+  selector:
+    app: hello
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+YAML
+
 # Створення кластера
 k3d cluster create hello-cluster
 
@@ -52,3 +86,14 @@ kubectl get svc
 # Тестування локально
 kubectl port-forward svc/hello-svc 8080:80
 curl http://127.0.0.1:8080
+
+# Після виконання повинні бачити шось таке:  
+@SlavkoVen ➜ /workspaces/AsciiArtify (main) $ curl http://127.0.0.1:8080
+Server address: 127.0.0.1:80
+Server name: hello-deploy-98d568dc5-dxz5z
+Date: 24/Aug/2025:11:11:59 +0000
+URI: /
+Request ID: fb175923e6fe08630815a8e557b09bb1
+
+![Hello World Deployment](images/hello.png)
+
