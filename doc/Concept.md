@@ -95,7 +95,10 @@ Date: 24/Aug/2025:11:11:59 +0000
 URI: /
 Request ID: fb175923e6fe08630815a8e557b09bb1
 
-![Hello World Deployment](https://github.com/SlavkoVen/AsciiArtify/blob/main/doc/images/hello.png?raw=true)
+
+	![Hello World Deployment](images/hello.png)
+
+
 
 
 
