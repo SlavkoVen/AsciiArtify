@@ -1,0 +1,25 @@
+{
+  "name": "AsciiArtify K8s",
+  "image": "mcr.microsoft.com/devcontainers/base:jammy",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": true
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    }
+  },
+  "runArgs": ["--privileged"],
+  "postCreateCommand": "bash .devcontainer/setup-tools.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  },
+  "portsAttributes": {
+    "8080": { "label": "Hello K8s", "onAutoForward": "openBrowser" }
+  }
+}
