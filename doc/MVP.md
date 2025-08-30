@@ -12,61 +12,61 @@
 
 ## 2️⃣ Створення локального Kubernetes кластера (Kind)
 
-# Встановити kind
+### Встановити kind
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.25.0/kind-linux-amd64
 chmod +x ./kind
 sudo mv ./kind /usr/local/bin/kind
 
-# Створити кластер
+### Створити кластер
 kind create cluster --name ascii-cluster
 
-# Перевірити ноди
+### Перевірити ноди
 kubectl get nodes
 
 ## 3️⃣ Встановлення ArgoCD у кластер
 
-# Створити namespace для ArgoCD
+### Створити namespace для ArgoCD
 kubectl create namespace argocd
 
-# Встановити ArgoCD
+### Встановити ArgoCD
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-# Перевірити поди
+### Перевірити поди
 kubectl get pods -n argocd
 
 ## 4️⃣ Використання UI ArgoCD для створення додатку
 
-# Проброс порту для доступу до UI:
+### Прокидування  порту для доступу до UI:
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 
-# Відкрий у браузері Codespace: https://localhost:8080
+### Відкрий у браузері Codespace: https://localhost:8080
 
-# Логін як admin. Початковий пароль:
+### Логін як admin. Початковий пароль:
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 
 ## Натисни New App у UI і заповни:
 
-# - Application Name: asciiapp
-# - Project: default
-# - Repository URL: https://github.com/SlavkoVen/AsciiArtify.git
-# - Revision: main
-# - Path: k8s
-# - Cluster: https://kubernetes.default.svc
-# - Namespace: default
+### - Application Name: asciiapp
+### - Project: default
+### - Repository URL: https://github.com/SlavkoVen/AsciiArtify.git
+### - Revision: main
+### - Path: k8s
+### - Cluster: https://kubernetes.default.svc
+### - Namespace: default
 
-# - Увімкни Automatic Sync і натисни Create
+### - Увімкни Automatic Sync і натисни Create
 
 ## 5️⃣ Перевірка роботи MVP
-# - Перевір поди у namespace default:
+### - Перевір поди у namespace default:
 kubectl get pods -n default
-# - Має з’явитися hello-deploy.
+### - Має з’явитися hello-deploy.
 
-# - Перевір сервіси:
+### - Перевір сервіси:
 kubectl get svc -n default
-# - Має з’явитися hello-svc.
+### - Має з’явитися hello-svc.
 
-# - Прокидування  порту до сервісу MVP:
+### - Прокидування  порту до сервісу MVP:
 kubectl port-forward svc/hello-svc 5000:80
 
 ## 6️⃣ Демонстрація автоматичної синхронізації
-# - Зроби зміни у YAML файлі k8s/hello.yaml або додай новий Deployment.
+### - Зроби зміни у YAML файлі k8s/hello.yaml або додай новий Deployment.
